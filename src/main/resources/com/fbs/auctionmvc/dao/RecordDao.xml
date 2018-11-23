@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fbs.auctionmvc.dao.RecordDao">
+	<resultMap type="Record" id="recordMap">
+		<id column="id" property="id"/>
+		<result column="user_id" property="user_id"/>
+		<result column="auction_id" property="auction_id"/>
+		<result column="auction_time" property="auction_time"/>
+		<result column="auction_price" property="auction_price"/>
+		<association property="user" javaType="User">
+			<id column="id" property="user_id"/>
+			<result column="user_name" property="user_name"/>
+			<result column="user_password" property="user_password"/>
+			<result column="user_card_no" property="user_card_no"/>
+			<result column="user_tel" property="user_tel"/>
+			<result column="user_address" property="user_address"/>
+			<result column="user_post_number" property="user_post_number"/>
+			<result column="user_is_admin" property="user_is_admin"/>
+			<result column="user_question" property="user_question"/>
+			<result column="user_answer" property="user_answer"/>
+		</association>
+	</resultMap>
+	
+	<select id="selectAll" resultMap="recordMap">
+	select x.*,y.user_id id,y.user_name from
+	(select * from auction_record where auction_id=#{id} order by auction_price desc) x left join auction_user y
+	on x.user_id=y.user_id
+	where rownum between 1 and 4
+	</select>
+	
+	<insert id="add">
+		insert into auction_record values (auc_seq.nextval,#{user_id},#{auction_id},sysdate,#{auction_price})
+	</insert>
+</mapper>

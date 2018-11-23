@@ -1,0 +1,27 @@
+server:
+  port: 8989
+  context-path: /testspringboot
+  jsp-servlet:
+    init-parameters:
+      development: true
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521:XE
+    username: hr
+    password: hr
+  mvc:
+    view:
+      suffix: .jsp
+      prefix: /
+  http:
+    multipart:
+      max-request-size: 100Mb
+      max-file-size: 10Mb
+    encoding:
+      force: true
+      charset: UTF-8
+mybatis:
+  mapper-locations: com/fbs/auctionmvc/dao/*Dao.xml
+  type-aliases-package: com.fbs.auctionmvc.entity
